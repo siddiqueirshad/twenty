@@ -12,7 +12,6 @@ import { AgentToolProvider } from 'src/engine/core-modules/tool-provider/provide
 import { DashboardToolProvider } from 'src/engine/core-modules/tool-provider/providers/dashboard-tool.provider';
 import { DatabaseToolProvider } from 'src/engine/core-modules/tool-provider/providers/database-tool.provider';
 import { LogicFunctionToolProvider } from 'src/engine/core-modules/tool-provider/providers/logic-function-tool.provider';
-import { MetadataToolProvider } from 'src/engine/core-modules/tool-provider/providers/metadata-tool.provider';
 import { WorkflowToolProvider } from 'src/engine/core-modules/tool-provider/providers/workflow-tool.provider';
 import { DefinedToolRegistryService } from 'src/engine/core-modules/tool-provider/services/defined-tool-registry.service';
 import { RecordFilesResolverService } from 'src/engine/core-modules/tool-provider/services/record-files-resolver.service';
@@ -21,14 +20,12 @@ import { ToolModule } from 'src/engine/core-modules/tool/tool.module';
 import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { AiAgentModule } from 'src/engine/metadata-modules/ai/ai-agent/ai-agent.module';
 import { ApplicationTranslationCatalogModule } from 'src/engine/metadata-modules/application-translation-catalog/application-translation-catalog.module';
-import { FieldMetadataModule } from 'src/engine/metadata-modules/field-metadata/field-metadata.module';
 import { WorkspaceManyOrAllFlatEntityMapsCacheModule } from 'src/engine/metadata-modules/flat-entity/services/workspace-many-or-all-flat-entity-maps-cache.module';
 import { NavigationMenuItemToolsModule } from 'src/engine/metadata-modules/navigation-menu-item/tools/navigation-menu-item-tools.module';
-import { ObjectMetadataModule } from 'src/engine/metadata-modules/object-metadata/object-metadata.module';
+import { MetadataToolsModule } from 'src/engine/metadata-modules/object-metadata/tools/metadata-tools.module';
 import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permissions.module';
 import { RoleToolsModule } from 'src/engine/metadata-modules/role/tools/role-tools.module';
 import { UserRoleModule } from 'src/engine/metadata-modules/user-role/user-role.module';
-import { ValidationRuleModule } from 'src/engine/metadata-modules/validation-rule/validation-rule.module';
 import { ViewToolsModule } from 'src/engine/metadata-modules/view/tools/view-tools.module';
 import { WebhookToolsModule } from 'src/engine/metadata-modules/webhook/tools/webhook-tools.module';
 import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/provide-workspace-scoped-repository';
@@ -50,8 +47,6 @@ import { ToolRegistryService } from './services/tool-registry.service';
     RecordCrudModule,
     FeatureFlagModule,
     FilesFieldModule,
-    ObjectMetadataModule,
-    FieldMetadataModule,
     PermissionsModule,
     ViewToolsModule,
     WorkspaceCacheModule,
@@ -60,7 +55,7 @@ import { ToolRegistryService } from './services/tool-registry.service';
     WebhookToolsModule,
     RoleToolsModule,
     UserRoleModule,
-    ValidationRuleModule,
+    MetadataToolsModule,
     EmailingModule,
     TypeOrmModule.forFeature([UserEntity, FileEntity]),
   ],
@@ -74,7 +69,6 @@ import { ToolRegistryService } from './services/tool-registry.service';
     AgentToolProvider,
     DashboardToolProvider,
     DatabaseToolProvider,
-    MetadataToolProvider,
     LogicFunctionToolProvider,
     WorkflowToolProvider,
     {
@@ -82,7 +76,6 @@ import { ToolRegistryService } from './services/tool-registry.service';
       useFactory: (
         actionProvider: ActionToolProvider,
         databaseProvider: DatabaseToolProvider,
-        metadataProvider: MetadataToolProvider,
         logicFunctionProvider: LogicFunctionToolProvider,
         workflowProvider: WorkflowToolProvider,
         dashboardProvider: DashboardToolProvider,
@@ -90,7 +83,6 @@ import { ToolRegistryService } from './services/tool-registry.service';
       ) => [
         actionProvider,
         databaseProvider,
-        metadataProvider,
         logicFunctionProvider,
         workflowProvider,
         dashboardProvider,
@@ -99,7 +91,6 @@ import { ToolRegistryService } from './services/tool-registry.service';
       inject: [
         ActionToolProvider,
         DatabaseToolProvider,
-        MetadataToolProvider,
         LogicFunctionToolProvider,
         WorkflowToolProvider,
         DashboardToolProvider,
