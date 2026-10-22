@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { isNonEmptyString } from '@sniptt/guards';
-import { isDefined } from 'twenty-shared/utils';
+import {
+  isDefined,
+  trimAndRemoveDuplicatedWhitespacesFromObjectStringProperties,
+} from 'twenty-shared/utils';
 
 import { ApplicationService } from 'src/engine/core-modules/application/application.service';
 import { type EncryptedString } from 'src/engine/core-modules/secret-encryption/branded-strings/encrypted-string.type';
@@ -135,15 +138,22 @@ export class McpServerService {
         { workspaceId },
       );
 
-    const { authorizationHeaderValue, url, ...otherUpdates } = input.update;
+    const { name, label, url } =
+      trimAndRemoveDuplicatedWhitespacesFromObjectStringProperties(
+        input.update,
+        ['name', 'label', 'url'],
+      );
+    const { authorizationHeaderValue, isEnabled } = input.update;
 
     const flatMcpServerToUpdate =
       fromUpdateMcpServerInputToFlatMcpServerToUpdateOrThrow({
         flatMcpServerMaps: await this.getFlatMcpServerMaps(workspaceId),
         mcpServerId: input.id,
         update: {
-          ...otherUpdates,
+          ...(isDefined(name) && { name }),
+          ...(isDefined(label) && { label }),
           ...(isDefined(url) && { url: this.normalizeUrl(url) }),
+          ...(isDefined(isEnabled) && { isEnabled }),
           ...(authorizationHeaderValue !== undefined && {
             authorizationHeaderValue: this.encryptAuthorizationHeaderValue(
               authorizationHeaderValue,
