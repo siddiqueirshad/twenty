@@ -664,6 +664,7 @@
                       {
                         "group": "Layout",
                         "pages": [
+                          "ui/components/layout/labeled-separator",
                           "ui/components/layout/section",
                           "ui/components/layout/overflowing-list",
                           "ui/components/layout/animated-icon-crossfade"
